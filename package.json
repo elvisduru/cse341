@@ -3,12 +3,13 @@
   "version": "0.3.0",
   "description": "A sample Node.js app using Express 4",
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "prove01": "nodemon prove01.js"
   },
   "dependencies": {
     "ejs": "^2.5.6",
