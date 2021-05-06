@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../includes/header.ejs %>
+</head>
+
+<body>
+  <% include ../includes/nav.ejs %>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1>
+          <%= title %>
+        </h1>
+        <p>Browse all the books that you have added to your collection</p>
+      </div>
+    </div>
+    <div class="container">
+      <% if (books.length> 0) { %>
+        <div class="row">
+          <% for ({title, image, summary} of books) { %>
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="card">
+                <img class="card-img-top" src="<%= image %>" alt="<%= title %>">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= title %>
+                  </h5>
+                  <p class="card-text">
+                    <%= summary %>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <% } %>
+        </div>
+
+        <% } %>
+    </div>
+</body>
+
+</html>
