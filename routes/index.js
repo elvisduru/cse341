@@ -3,8 +3,11 @@ const router = express.Router();
 
 const proveRoutes = require("./proveRoutes");
 const teamRoutes = require("./teamRoutes");
+const classRoutes = require("./classRoutes");
 
-router.use("/prove", proveRoutes);
-router.use("/team", teamRoutes);
+router
+  .use("/prove", proveRoutes)
+  .use("/team", teamRoutes)
+  .use("/class", classRoutes);
 
 module.exports = router;
