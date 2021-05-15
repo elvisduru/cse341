@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../includes/header.ejs %>
+</head>
+
+<body>
+  <% include ../includes/nav.ejs %>
+    <div class="jumbotron text-center">
+      <div class="container">
+        <h1>
+          <%= title %>
+        </h1>
+      </div>
+    </div>
+    <div class="container">
+
+      <form action="/team/ta02/addUser" method="POST">
+        <input type="text" name="name">
+        <button type="submit">Add</button>
+      </form>
+
+      <form action="/team/ta02/removeUser" method="POST">
+        <input type="text" name="removeName">
+        <button type="submit">Remove</button>
+      </form>
+
+      <div>
+        <!-- Looped List for requirement 01-->
+        <h2>User Names:</h2>
+        <% for(list of names) { %>
+          <p>
+            <%= list %>
+          </p>
+          <% } %>
+            <!-- Looped List for requirement 01-->
+      </div>
+    </div>
+
+
+</body>
+
+</html>

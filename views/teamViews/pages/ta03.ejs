@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <% include ../includes/header.ejs %>
+    <link rel="stylesheet" href="/stylesheets/week03.css" />
+</head>
+
+<body>
+  <% include ../includes/nav.ejs %>
+    <main class="container my-5">
+
+      <div class="w-50 m-auto">
+        <form method="POST" class="text-right">
+          <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Search Product"
+              aria-label="Search Product">
+            <div class="input-group-append">
+              <button class="btn btn-outline-primary" type="submit" id="searchIcon"><span class="material-icons">
+                  search
+                </span>
+              </button>
+            </div>
+          </div>
+          <% if(totalProducts !==products.length) { %>
+            <a href="/team/ta03">Clear Filter</a>
+            <% } %>
+        </form>
+
+        <ul id="productsList" class="list-group mt-3">
+          <% for(product of products) { %>
+            <li class="list-group-item">
+              <div class="product-card">
+                <div class="img-thumbnail mr-3" style="background-image: url(<%= product.imageUrl %>)"></div>
+
+                <div class="product-card-content">
+                  <h1 class="d-flex flex-column align-items-start">
+                    <%= product.name %>
+                      <div class="badge badge-secondary">$ <%= product.price %>
+                      </div>
+                  </h1>
+                  <p>
+                    <%= product.description %>
+                  </p>
+
+                  <ul>
+                    <% for(tag of product.tags) { %>
+                      <li class="badge badge-primary">
+                        <%= tag %>
+                      </li>
+                      <% } %>
+                  </ul>
+                </div>
+              </div>
+            </li>
+            <% } %>
+        </ul>
+        <div class="text-right">
+          <small>Showing <%= products.length %> of <%= totalProducts %></small>
+        </div>
+      </div>
+    </main>
+</body>
+
+</html>

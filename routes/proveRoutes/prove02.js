@@ -10,11 +10,18 @@ router.post("/add", (req, res, next) => {
   res.redirect("/books");
 });
 
-router.get("/", (req, res, next) => {
-  res.render("pages/books", {
+router.get("/books", (req, res, next) => {
+  res.render("proveViews/prove02/pages/books", {
     title: "My Book Collection",
     path: "/books",
     books: books,
+  });
+});
+
+router.get("/", (req, res, next) => {
+  res.render("proveViews/prove02/pages", {
+    title: "Welcome to your book collection",
+    path: "/",
   });
 });
 
