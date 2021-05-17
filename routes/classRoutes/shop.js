@@ -1,19 +1,17 @@
 const express = require("express");
 
-const adminData = require("./admin");
+const shopController = require("../../controllers/classControllers/shop");
 
 const router = express.Router();
 
-router.get("/", (req, res, next) => {
-  const products = adminData.products;
-  res.render("classViews/pages/shop", {
-    prods: products,
-    pageTitle: "Shop",
-    path: "/class",
-    hasProducts: products.length > 0,
-    activeShop: true,
-    productCSS: true,
-  });
-});
+router
+  .get("/", shopController.getIndex)
+  .get("/products", shopController.getProducts)
+  .get("/products/:productId", shopController.getProduct)
+  .get("/cart", shopController.getCart)
+  .post("/cart", shopController.postCart)
+  .post("/cart-delete-item", shopController.postCartDeleteProduct)
+  .get("/orders", shopController.getOrders)
+  .get("/checkout", shopController.getCheckout);
 
 module.exports = router;

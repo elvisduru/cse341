@@ -1,0 +1,52 @@
+[
+  {
+    "id": "001",
+    "tags": [
+      "asus", "core i5", "gaming laptop", "gtx", "nvidia"
+    ],
+    "imageUrl": "https://m.media-amazon.com/images/I/91P7uBC9DML._AC_UL320_.jpg",
+    "price": 976.99,
+    "name": "ASUS TUF Gaming F17",
+    "description": "17.3\" Full HD Gaming Notebook Computer, Intel Core i5-10300H 2.5GHz, 8GB RAM, 512GB SSD, NVIDIA GeForce GTX 1650 Ti 4GB, Windows 10 Home, Bonfire Black"
+  },
+  {
+    "id": "002",
+    "tags": [
+      "msi", "core i7", "gaming laptop", "gtx", "nvidia"
+    ],
+    "imageUrl": "https://m.media-amazon.com/images/I/618ivcukDtL._AC_UL320_.jpg",
+    "price": 1399.99,
+    "name": "MSI GF75 Thin 9SC-278",
+    "description": "17.3\" 120Hz FHD Gaming Laptop, Intel Core i7-9750H, NVIDIA GTX 1650, 16GB, 512GB Nvme SSD, Win10"
+  },
+  {
+    "id": "003",
+    "tags": [
+      "asus", "core i5", "gaming laptop", "gtx", "nvidia"
+    ],
+    "imageUrl": "https://m.media-amazon.com/images/I/91pZKrNVBAL._AC_UL320_.jpg",
+    "price": 909.00,
+    "name": "ASUS TUF FX505 Gaming Laptop",
+    "description": "15.6\" Full HD, 8th-Gen Intel Core i5-8300H (up to 3.9GHz) Processor, GeForce GTX 1050 Ti, 8GB DDR4 + 16GB Optane, 1TB HDD, Wi-Fi 5, Windows 10 Home – FX504GE-ES52"
+  },
+  {
+    "id": "004",
+    "tags": [
+      "acer", "core i7", "gaming laptop", "rtx", "nvidia", "predator"
+    ],
+    "imageUrl": "https://m.media-amazon.com/images/I/71cMeRQvONL._AC_UL320_.jpg",
+    "price": 1797.99,
+    "name": "Acer Predator Triton 500 PT515-52-71K5 Gaming Laptop",
+    "description": "Intel Core i7-10750H, NVIDIA GeForce RTX 2070 Super, 15.6\" FHD NVIDIA G-SYNC Display, 300Hz, 16GB Dual-Channel DDR4, 1TB NVMe SSD, RGB Backlit KB"
+  },
+  {
+    "id": "005",
+    "tags": [
+      "msi", "core i7", "gaming laptop", "rtx", "nvidia", "cuk"
+    ],
+    "imageUrl": "https://m.media-amazon.com/images/I/517RQdUtMbL._AC_UL320_.jpg",
+    "price": 1899.99,
+    "name": "CUK GF75 Thin by MSI 17 Inch Gaming Laptop",
+    "description": " Intel Core i7, 32GB RAM, 512GB NVMe SSD + 1TB HDD, NVIDIA GeForce RTX 3060 6GB, 17.3\" FHD 144Hz IPS, Windows 10 Home Gamer Notebook Computer"
+  }
+]

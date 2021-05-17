@@ -8,6 +8,8 @@ const app = express();
 // Route setup. You can implement more in the future!
 const routes = require("./routes");
 
+const errorController = require("./controllers/errors");
+
 app
   .use(express.static(path.join(__dirname, "public")))
   .set("views", path.join(__dirname, "views"))
@@ -21,8 +23,5 @@ app
       path: "/",
     });
   })
-  .use((req, res, next) => {
-    // 404 page
-    res.render("pages/404", { title: "404 - Page Not Found", path: req.url });
-  })
+  .use(errorController.get404)
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
