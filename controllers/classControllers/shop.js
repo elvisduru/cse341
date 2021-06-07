@@ -1,12 +1,13 @@
-const Order = require("../../models/classModels/order");
-const Product = require("../../models/classModels/product");
+const { getDatabase } = require("../../util/db");
 
-exports.getProducts = (req, res, next) => {
-  Product.find()
-    // .select("title price -_id")
-    // .populate("userId", "name")
+exports.getProducts = async (req, res, next) => {
+  getDatabase()
+    .then((db) => {
+      return db.ClassProduct.find();
+      // .select("title price -_id")
+      // .populate("userId", "name")
+    })
     .then((products) => {
-      console.log(products);
       res.render("classViews/pages/shop/product-list", {
         prods: products,
         pageTitle: "All Products",
@@ -18,9 +19,10 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
-exports.getProduct = (req, res, next) => {
+exports.getProduct = async (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId)
+  getDatabase()
+    .then((db) => db.ClassProduct.findById(prodId))
     .then((product) => {
       res.render("classViews/pages/shop/product-detail", {
         product: product,
@@ -31,13 +33,14 @@ exports.getProduct = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-exports.getIndex = (req, res, next) => {
-  Product.find()
+exports.getIndex = async (req, res, next) => {
+  getDatabase()
+    .then((db) => db.ClassProduct.find())
     .then((products) => {
       res.render("classViews/pages/shop/index", {
         prods: products,
         pageTitle: "Shop",
-        path: "/class/",
+        path: "/class",
       });
     })
     .catch((err) => {
@@ -54,20 +57,20 @@ exports.getCart = (req, res, next) => {
       res.render("classViews/pages/shop/cart", {
         path: "/class/cart",
         pageTitle: "Your Cart",
-        products: products,
+        products,
       });
     })
     .catch((err) => console.log(err));
 };
 
-exports.postCart = (req, res, next) => {
+exports.postCart = async (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findById(prodId)
+  getDatabase()
+    .then((db) => db.ClassProduct.findById(prodId))
     .then((product) => {
       return req.user.addToCart(product);
     })
     .then((result) => {
-      console.log(result);
       res.redirect("/class/cart");
     });
 };
@@ -91,14 +94,16 @@ exports.postOrder = (req, res, next) => {
         quantity: i.quantity,
         product: { ...i.productId._doc },
       }));
-      const order = new Order({
-        user: {
-          name: req.user.name,
-          userId: req.user,
-        },
-        products,
+      getDatabase().then((db) => {
+        const order = new db.ClassOrder({
+          user: {
+            name: req.user.name,
+            userId: req.user,
+          },
+          products,
+        });
+        return order.save();
       });
-      return order.save();
     })
     .then((result) => {
       return req.user.clearCart();
@@ -110,7 +115,8 @@ exports.postOrder = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  Order.find()
+  getDatabase()
+    .then((db) => db.ClassOrder.find())
     .then((orders) => {
       res.render("classViews/pages/shop/orders", {
         path: "/class/orders",

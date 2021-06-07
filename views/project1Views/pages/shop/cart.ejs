@@ -1,0 +1,44 @@
+<%- include('../../includes/head.ejs') %>
+  <link rel="stylesheet" href="/project1/css/cart.css">
+  </head>
+
+  <body>
+    <%- include('../../includes/nav.ejs') %>
+      <main class="container">
+        <% if (products.length> 0) { %>
+          <ul class="list-group list-group-flush my-4">
+            <% products.forEach(p=> { %>
+              <li class="list-group-item cart__item py-4">
+                <img src="<%= p.productId.imageUrl %>" alt="<%=p.productId.name%>">
+                <div>
+                  <h5>
+                    <%= p.productId.name %>
+                  </h5>
+                  <p class="mb-1">
+                    <%= p.productId.description%>
+                  </p>
+                  <h5>
+                    $<%= p.productId.price %>
+                  </h5>
+                </div>
+                <p>Quantity: <%= p.quantity %>
+                </p>
+                <form action="/project1/cart/<%= p.productId._id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-danger" type="submit">Remove</button>
+                </form>
+              </li>
+              <% }) %>
+          </ul>
+          <hr>
+          <div class="centered d-flex cart__footer">
+            <a href="/project1/products" class="btn ps-0">&larr; Continue Shopping</a>
+            <form action="/project1/orders" method="POST">
+              <button type="submit" class="btn btn-success">Order Now!</button>
+            </form>
+          </div>
+
+          <% } else { %>
+            <h1 class="mt-4">No Products in Cart!</h1>
+            <% } %>
+      </main>
+      <%- include('../../includes/end.ejs') %>

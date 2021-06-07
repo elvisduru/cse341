@@ -1,4 +1,4 @@
-const Product = require("../../models/classModels/product");
+const { getDatabase } = require("../../util/db");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("classViews/pages/admin/edit-product", {
@@ -13,17 +13,18 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const product = new Product({
-    title,
-    price,
-    description,
-    imageUrl,
-    userId: req.user,
-  });
-  product
-    .save()
+  getDatabase()
+    .then((db) => {
+      const product = new db.ClassProduct({
+        title,
+        price,
+        description,
+        imageUrl,
+        userId: req.user,
+      });
+      return product.save();
+    })
     .then((result) => {
-      // console.log(result);
       console.log("Created Product");
       res.redirect("/class/admin/products");
     })
@@ -38,8 +39,8 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/class/");
   }
   const prodId = req.params.productId;
-  Product.findById(prodId)
-    // Product.findById(prodId)
+  getDatabase()
+    .then((db) => db.ClassProduct.findById(prodId))
     .then((product) => {
       if (!product) {
         return res.redirect("/class/");
@@ -60,8 +61,8 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
-
-  Product.findById(prodId)
+  getDatabase()
+    .then((db) => db.ClassProduct.findById(prodId))
     .then((product) => {
       (product.title = updatedTitle),
         (product.price = updatedPrice),
@@ -77,7 +78,8 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  getDatabase()
+    .then((db) => db.ClassProduct.find())
     .then((products) => {
       res.render("classViews/pages/admin/products", {
         prods: products,
@@ -90,7 +92,8 @@ exports.getProducts = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findByIdAndRemove(prodId)
+  getDatabase()
+    .then((db) => db.ClassProduct.findByIdAndRemove(prodId))
     .then(() => {
       console.log("DESTROYED PRODUCT");
       res.redirect("/class/admin/products");
