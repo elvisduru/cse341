@@ -34,6 +34,7 @@
                 <div class="card-footer text-center d-flex justify-content-center">
                   <a href="/project1/admin/products/<%= product._id %>/edit" class="btn btn-secondary me-3">Edit</a>
                   <form action="/project1/admin/products/<%= product._id %>?_method=DELETE" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button class="btn btn-danger">Delete</button>
                   </form>
                 </div>

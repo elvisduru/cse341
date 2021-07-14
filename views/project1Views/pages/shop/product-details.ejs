@@ -24,6 +24,7 @@
               $<%= product.price %>
             </p>
             <form action="/project1/cart/<%= product._id %>" method="POST" class="d-flex flex-row align-items-center">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit" class="btn btn-success">Add to Cart</button>
             </form>
             <div class="mt-5">

@@ -3,6 +3,9 @@ const router = express.Router();
 
 const adminRoutes = require("./admin");
 const shopRoutes = require("./shop");
+const authRoutes = require("./auth");
+
+const isAuth = require("../../middleware/project/is-auth");
 
 const { getDatabase } = require("../../util/db");
 
@@ -16,7 +19,8 @@ router
       })
       .catch((err) => console.log(err));
   })
-  .use("/admin", adminRoutes)
-  .use(shopRoutes);
+  .use("/admin", isAuth, adminRoutes)
+  .use(shopRoutes)
+  .use(authRoutes);
 
 module.exports = router;

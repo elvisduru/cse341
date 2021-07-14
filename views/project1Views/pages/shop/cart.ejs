@@ -24,6 +24,7 @@
                 <p>Quantity: <%= p.quantity %>
                 </p>
                 <form action="/project1/cart/<%= p.productId._id %>?_method=DELETE" method="POST">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button class="btn btn-danger" type="submit">Remove</button>
                 </form>
               </li>
@@ -33,6 +34,7 @@
           <div class="centered d-flex cart__footer">
             <a href="/project1/products" class="btn ps-0">&larr; Continue Shopping</a>
             <form action="/project1/orders" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit" class="btn btn-success">Order Now!</button>
             </form>
           </div>

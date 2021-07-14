@@ -32,7 +32,7 @@
             <input type="text" name="tags" id="tags" placeholder="e.g. Tag1, Tag2, etc"
               value="<%= editing ? product.tags : '' %>">
           </div>
-
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button class="btn btn-success mt-4" type="submit">
             <%= editing ? 'Update' : 'Add' %> Product
           </button>
