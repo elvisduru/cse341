@@ -1,10 +1,22 @@
 // Our initial setup (package requires, port number setup)
 const express = require("express");
 const path = require("path");
+const csrf = require("csurf");
+const flash = require("connect-flash");
 const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
+const MONGODB_URI =
+  "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/mongo-session";
 
 const app = express();
 const methodOverride = require("method-override");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: "sessions",
+});
+
+const csrfProtection = csrf();
 
 // Route setup. You can implement more in the future!
 const routes = require("./routes");
@@ -19,14 +31,21 @@ app
   .set("view engine", "ejs")
   .use(methodOverride("_method"))
   .use(express.urlencoded({ extended: false })) // For parsing the body of a POST
-  // .use((req, res, next) => {
-  //   User.findById("60bcceefb6569a0c66376345")
-  //     .then((user) => {
-  //       req.user = user;
-  //       next();
-  //     })
-  //     .catch((err) => console.log(err));
-  // })
+  .use(
+    session({
+      secret: "my secret",
+      resave: false,
+      saveUninitialized: false,
+      store,
+    })
+  )
+  .use(csrfProtection)
+  .use(flash())
+  .use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+  })
   .use(routes)
   .get("/", (req, res, next) => {
     // This is the primary index, always handled last.

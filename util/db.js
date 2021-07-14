@@ -7,9 +7,9 @@ const Project1UserSchema = require("../models/project1Models/user");
 const Project1ProductSchema = require("../models/project1Models/product");
 const Project1OrderSchema = require("../models/project1Models/order");
 
-const url1 =
+const uri1 =
   "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/class";
-const url2 =
+const uri2 =
   "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/project1";
 
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
@@ -23,7 +23,7 @@ exports.getDatabase = function () {
 
 const createDatabases = async () => {
   try {
-    const { db1, db2 } = await createConnections(url1, url2, options);
+    const { db1, db2 } = await createConnections(uri1, uri2, options);
     const ClassUser = db1.model("User", ClassUserSchema);
     const ClassProduct = db1.model("Product", ClassProductSchema);
     const ClassOrder = db1.model("Order", ClassOrderSchema);

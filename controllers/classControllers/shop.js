@@ -49,6 +49,7 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
+  console.log(req.user);
   req.user
     .populate("cart.items.productId")
     .execPopulate()
@@ -97,7 +98,7 @@ exports.postOrder = (req, res, next) => {
       getDatabase().then((db) => {
         const order = new db.ClassOrder({
           user: {
-            name: req.user.name,
+            email: req.user.email,
             userId: req.user,
           },
           products,

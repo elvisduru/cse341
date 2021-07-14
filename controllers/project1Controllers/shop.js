@@ -91,7 +91,7 @@ exports.postOrder = async (req, res, next) => {
     const db = await getDatabase();
     const order = new db.Project1Order({
       user: {
-        name: req.user.name,
+        email: req.user.email,
         userId: req.user,
       },
       products,
