@@ -1,11 +1,11 @@
 // Our initial setup (package requires, port number setup)
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
-const MONGODB_URI =
-  "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/mongo-session";
+const MONGODB_URI = process.env.DB_SESSION;
 const app = express();
 const methodOverride = require("method-override");
 const session = require("express-session");
@@ -21,8 +21,6 @@ const csrfProtection = csrf();
 const routes = require("./routes");
 
 const errorController = require("./controllers/errors");
-
-const { getDatabase } = require("./util/db");
 
 app
   .use(express.static(path.join(__dirname, "public")))
@@ -53,37 +51,5 @@ app
       path: "/",
     });
   })
-  .use(errorController.get404);
-
-getDatabase()
-  .then((db) => {
-    db.ClassUser.findOne().then((user) => {
-      if (!user) {
-        const user = new db.ClassUser({
-          name: "Elvis",
-          email: "elvis@test.com",
-          cart: {
-            items: [],
-          },
-        });
-        user.save();
-      }
-    });
-    return db;
-  })
-  .then((db) => {
-    db.Project1User.findOne().then((user) => {
-      if (!user) {
-        const user = new db.Project1User({
-          name: "Elvis",
-          email: "elvis@test.com",
-          cart: {
-            items: [],
-          },
-        });
-        user.save();
-      }
-    });
-    app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
-  })
-  .catch((err) => console.log(err));
+  .use(errorController.get404)
+  .listen(PORT, () => console.log(`Listening on port: ${PORT}`));

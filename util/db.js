@@ -7,10 +7,8 @@ const Project1UserSchema = require("../models/project1Models/user");
 const Project1ProductSchema = require("../models/project1Models/product");
 const Project1OrderSchema = require("../models/project1Models/order");
 
-const uri1 =
-  "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/class";
-const uri2 =
-  "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/project1";
+const uri1 = process.env.DB_CONN1;
+const uri2 = process.env.DB_CONN2;
 
 const options = { useNewUrlParser: true, useUnifiedTopology: true };
 
