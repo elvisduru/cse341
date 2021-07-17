@@ -12,22 +12,15 @@
             <%= errorMessage %>
           </div>
           <% } %>
-            <form class="login-form" action="/class/login" method="POST">
+            <form class="login-form" action="/class/reset" method="POST">
               <div class="form-control">
                 <label for="email">E-mail</label>
-                <input class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>" type="email"
-                  name="email" id="email" value="<%= oldInput.email %>">
-              </div>
-              <div class="form-control">
-                <label for="imageUrl">Password</label>
-                <input class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
-                  type="password" name="password" id="password" value="<%= oldInput.password %>">
+                <input type="email" name="email" id="email">
               </div>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button class="btn" type="submit">
-                Login
+                Reset Password
               </button>
             </form>
-            <div class="centered"><a href="/class/reset">Reset Password</a></div>
       </main>
       <%- include('../../includes/end.ejs') %>

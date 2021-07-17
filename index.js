@@ -6,7 +6,6 @@ const flash = require("connect-flash");
 const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
 const MONGODB_URI =
   "mongodb+srv://elvisduru:victory1.@cse341-class.8upk6.mongodb.net/mongo-session";
-
 const app = express();
 const methodOverride = require("method-override");
 const session = require("express-session");

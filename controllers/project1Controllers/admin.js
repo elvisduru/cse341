@@ -1,3 +1,4 @@
+const { validationResult } = require("express-validator");
 const { getDatabase } = require("../../util/db");
 
 exports.getAddProduct = async (req, res, next) => {
@@ -6,6 +7,9 @@ exports.getAddProduct = async (req, res, next) => {
       pageTitle: "Add Product",
       path: "/project1/admin/products/new",
       editing: false,
+      errorMessage: [],
+      hasError: false,
+      validationErrors: [],
     });
   } catch (error) {
     console.log(error);
@@ -14,20 +18,23 @@ exports.getAddProduct = async (req, res, next) => {
 
 exports.postProduct = async (req, res, next) => {
   try {
-    if (
-      !req.body.name ||
-      !req.body.imageUrl ||
-      !req.body.price ||
-      !req.body.description ||
-      !req.body.tags
-    ) {
-      throw "Something is missing from your input";
-    }
     // Split tags string input into array
     req.body.tags = req.body.tags.split(",");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).render("project1Views/pages/admin/edit-product", {
+        pageTitle: "Add Product",
+        path: "/project1/admin/products/new",
+        editing: false,
+        hasError: true,
+        product: req.body,
+        errorMessage: errors.array()[0].msg,
+        validationErrors: errors.array(),
+      });
+    }
 
     const db = await getDatabase();
-    const product = new db.Project1Product(req.body);
+    const product = new db.Project1Product({ ...req.body, userId: req.user });
     await product.save();
     console.log("Created Product");
     res.redirect("/project1/admin/products");
@@ -39,7 +46,9 @@ exports.postProduct = async (req, res, next) => {
 exports.getProducts = async (req, res, next) => {
   try {
     const db = await getDatabase();
-    const products = await db.Project1Product.find().sort({ updatedAt: -1 });
+    const products = await db.Project1Product.find({
+      userId: req.user._id,
+    }).sort({ updatedAt: -1 });
 
     res.render("project1Views/pages/admin", {
       pageTitle: "All Products | Laptop Shop :: Admin",
@@ -71,7 +80,7 @@ exports.deleteProduct = async (req, res, next) => {
   try {
     const prodId = req.params.id;
     const db = await getDatabase();
-    await db.Project1Product.findByIdAndRemove(prodId);
+    await db.Project1Product.deleteOne({ _id: prodId, userId: req.user._id });
     console.log("DESTROYED PRODUCT");
     res.redirect("/project1/admin/products");
   } catch (error) {
@@ -92,6 +101,10 @@ exports.getEditProduct = async (req, res, next) => {
       path: "/project1/admin/products",
       editing: true,
       product: product,
+      _id: prodId,
+      hasError: false,
+      errorMessage: [],
+      validationErrors: [],
     });
   } catch (error) {
     console.log(error);
@@ -100,23 +113,27 @@ exports.getEditProduct = async (req, res, next) => {
 
 exports.updateProduct = async (req, res, next) => {
   try {
-    if (
-      !req.body.name ||
-      !req.body.imageUrl ||
-      !req.body.price ||
-      !req.body.description ||
-      !req.body.tags
-    ) {
-      throw "Something is missing from your input";
-    }
     // Split tags string input into array
     req.body.tags = req.body.tags.split(",");
     const prodId = req.params.id;
+    req.body._id = prodId;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).render("project1Views/pages/admin/edit-product", {
+        pageTitle: "Edit Product",
+        path: "/project1/admin/products",
+        editing: true,
+        hasError: true,
+        product: req.body,
+        errorMessage: errors.array()[0].msg,
+        validationErrors: errors.array(),
+      });
+    }
+
     const db = await getDatabase();
     const product = await db.Project1Product.findById(prodId);
-
     // Redirect to products route if no product found
-    if (!product) {
+    if (!product || product.userId.toString() !== req.user._id.toString()) {
       return res.redirect("/project1/admin/products");
     }
 

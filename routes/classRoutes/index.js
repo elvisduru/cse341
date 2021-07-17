@@ -16,7 +16,9 @@ router
     getDatabase()
       .then((db) => db.ClassUser.findById(req.session.user._id))
       .then((user) => {
-        req.user = user;
+        if (user) {
+          req.user = user;
+        }
         next();
       })
       .catch((err) => console.log(err));

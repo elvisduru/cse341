@@ -14,18 +14,24 @@
                 <%= errorMessage %>
               </div>
               <% } %>
-                <form action="/project1/signup" class="col-" method="POST">
+                <form action="/project1/signup" method="POST">
                   <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com">
+                    <input type="email" name="email"
+                      class="form-control <%= validationErrors.find(e => e.param === 'email') ? 'is-invalid' : '' %>"
+                      id="email" placeholder="name@example.com" value="<%= oldInput.email %>">
                   </div>
                   <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="password">
+                    <input type="password" name="password"
+                      class="form-control <%= validationErrors.find(e => e.param === 'password') ? 'is-invalid' : '' %>"
+                      id="password" value="<%= oldInput.password %>">
                   </div>
                   <div class="mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                    <input type="password" name="confirmPassword" class="form-control" id="confirmPassword">
+                    <input type="password" name="confirmPassword"
+                      class="form-control <%= validationErrors.find(e => e.param === 'confirmPassword') ? 'is-invalid' : '' %>"
+                      id="confirmPassword" value="<%= oldInput.confirmPassword %>">
                   </div>
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <button type="submit" class="btn btn-success btn-lg w-100 mt-3">Create my account</button>
