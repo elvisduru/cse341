@@ -70,7 +70,6 @@ exports.postSignup = async (req, res, next) => {
   const { email, password, confirmPassword } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log(errors.array());
     return res.status(422).render("classViews/pages/auth/signup", {
       path: "/class/signup",
       pageTitle: "Signup",

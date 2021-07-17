@@ -11,8 +11,11 @@ const { getDatabase } = require("../../util/db");
 
 router
   .use(async (req, res, next) => {
+    if (!req.session.isLoggedIn) {
+      return next();
+    }
     const db = await getDatabase();
-    db.Project1User.findById("60bcceefb6569a0c66376345")
+    db.Project1User.findById(req.session.user._id)
       .then((user) => {
         req.user = user;
         next();

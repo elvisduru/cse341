@@ -49,7 +49,6 @@ exports.getIndex = async (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  console.log(req.user);
   req.user
     .populate("cart.items.productId")
     .execPopulate()

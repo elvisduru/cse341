@@ -11,7 +11,7 @@ const { getDatabase } = require("../../util/db");
 router
   .use((req, res, next) => {
     if (!req.session.isLoggedIn) {
-      next();
+      return next();
     }
     getDatabase()
       .then((db) => db.ClassUser.findById(req.session.user._id))
