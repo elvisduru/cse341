@@ -17,11 +17,16 @@ router
       .then((db) => db.ClassUser.findById(req.session.user._id))
       .then((user) => {
         if (user) {
+          if (!user) {
+            return next();
+          }
           req.user = user;
+          next();
         }
-        next();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        next(new Error(err));
+      });
   })
   .use("/admin", isAuth, adminRoutes)
   .use(shopRoutes)

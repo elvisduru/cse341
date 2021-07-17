@@ -51,5 +51,11 @@ app
       path: "/",
     });
   })
+  .get("/500", errorController.get500)
   .use(errorController.get404)
+  .use((err, req, res, next) => {
+    res
+      .status(500)
+      .render("pages/500", { title: "500 - System Error", path: req.url });
+  })
   .listen(PORT, () => console.log(`Listening on port: ${PORT}`));

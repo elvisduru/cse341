@@ -17,10 +17,15 @@ router
     const db = await getDatabase();
     db.Project1User.findById(req.session.user._id)
       .then((user) => {
+        if (!user) {
+          return next();
+        }
         req.user = user;
         next();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        next(new Error(err));
+      });
   })
   .use("/admin", isAuth, adminRoutes)
   .use(shopRoutes)

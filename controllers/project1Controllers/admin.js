@@ -12,7 +12,9 @@ exports.getAddProduct = async (req, res, next) => {
       validationErrors: [],
     });
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -39,7 +41,9 @@ exports.postProduct = async (req, res, next) => {
     console.log("Created Product");
     res.redirect("/project1/admin/products");
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -56,7 +60,9 @@ exports.getProducts = async (req, res, next) => {
       products,
     });
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -72,7 +78,9 @@ exports.getProduct = async (req, res, next) => {
       product,
     });
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -84,7 +92,9 @@ exports.deleteProduct = async (req, res, next) => {
     console.log("DESTROYED PRODUCT");
     res.redirect("/project1/admin/products");
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -107,7 +117,9 @@ exports.getEditProduct = async (req, res, next) => {
       validationErrors: [],
     });
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -150,6 +162,8 @@ exports.updateProduct = async (req, res, next) => {
     console.log("UPDATED PRODUCT!");
     res.redirect("/project1/admin/products");
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };

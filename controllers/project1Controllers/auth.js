@@ -62,7 +62,11 @@ exports.postLogin = async (req, res, next) => {
           res.redirect("/project1/login");
         });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
+    });
 };
 
 exports.postSignup = async (req, res, next) => {
@@ -93,7 +97,9 @@ exports.postSignup = async (req, res, next) => {
       res.redirect("/project1/login");
     })
     .catch((err) => {
-      console.log(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
@@ -146,7 +152,9 @@ exports.postForgetPassword = async (req, res, next) => {
     req.flash("success", "Please check your email for a link");
     res.redirect("back");
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -170,7 +178,9 @@ exports.getReset = async (req, res, next) => {
       passwordToken: token,
     });
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
 
@@ -195,6 +205,8 @@ exports.postReset = async (req, res, next) => {
 
     res.redirect("/project1/login");
   } catch (error) {
-    console.log(error);
+    error = new Error(error);
+    error.httpStatusCode = 500;
+    return next(error);
   }
 };
