@@ -6,7 +6,11 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
 const MONGODB_URI = process.env.DB_SESSION;
+const http = require("http");
 const app = express();
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 const methodOverride = require("method-override");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -59,5 +63,17 @@ app
     res
       .status(500)
       .render("pages/500", { title: "500 - System Error", path: req.url });
-  })
-  .listen(PORT, () => console.log(`Listening on port: ${PORT}`));
+  });
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+  socket.on("new-name", () => {
+    // Tell everyone client connected to update the list when someone adds a new name
+    socket.broadcast.emit("update-list");
+  });
+});
+
+server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));

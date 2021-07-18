@@ -1,0 +1,26 @@
+<%- include('../includes/header.ejs') %>
+
+  </head>
+
+  <body>
+    <%- include('../includes/nav.ejs') %>
+      <main class="container">
+        <h1 class="text-center">
+          <%= title %> Activity
+        </h1>
+        <h2 class="my-5 text-center">Names</h2>
+        <div class="row justify-content-center">
+          <ul id="nameList">
+          </ul>
+        </div>
+        <div class="actions_container text-center">
+          <input type="text" id="newName">
+          <input type="hidden" name="_csrf" id="csrf" value="<%= csrfToken %>">
+          <button class="btn btn-primary" onclick="submitName()">Submit</button>
+        </div>
+      </main>
+      <script src="/socket.io/socket.io.js"></script>
+      <script src="/js/prove11.js"></script>
+  </body>
+
+  </html>
