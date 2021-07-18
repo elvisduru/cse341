@@ -28,6 +28,7 @@ app
   .set("view engine", "ejs")
   .use(methodOverride("_method"))
   .use(express.urlencoded({ extended: false })) // For parsing the body of a POST
+  .use(express.json())
   .use(
     session({
       secret: "my secret",
