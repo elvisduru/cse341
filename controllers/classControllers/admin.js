@@ -132,13 +132,32 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+  const page = +req.query.page || 1;
+  const limit = 1;
+  const skip = (page - 1) * limit;
+  let totalItems;
   getDatabase()
-    .then((db) => db.ClassProduct.find({ userId: req.user._id }))
+    .then((db) =>
+      db.ClassProduct.find({ userId: req.user._id }).countDocuments()
+    )
+    .then((numProducts) => {
+      totalItems = numProducts;
+      return getDatabase().then((db) =>
+        db.ClassProduct.find({ userId: req.user._id }).skip(skip).limit(limit)
+      );
+    })
     .then((products) => {
       res.render("classViews/pages/admin/products", {
         prods: products,
         pageTitle: "Admin Products",
         path: "/class/admin/products",
+        totalProducts: totalItems,
+        currentPage: page,
+        hasNextPage: totalItems > page * limit,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / limit),
       });
     })
     .catch((err) => {

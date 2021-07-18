@@ -1,0 +1,40 @@
+<%- include('../../includes/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../../includes/nav.ejs') %>
+      <main class="container">
+        <div class="row w-75 gx-5 mt-5">
+          <div class="col col-md-6">
+            <img class="w-100" src="<%= product.imageUrl %>" alt="<%= product.name %>">
+          </div>
+          <div class="col col-md-6">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/prove/prove03">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">
+                  <%= product.name %>
+                </li>
+              </ol>
+            </nav>
+            <h1>
+              <%= product.name %>
+            </h1>
+            <p class="fs-4">
+              $<%= product.price %>
+            </p>
+            <form action="/prove/prove03/products" method="POST" class="d-flex flex-row align-items-center">
+              <input class="form-control me-2 w-25" type="number" name="qty" min="1" value="1">
+              <button type="submit" class="btn btn-primary">Add to Cart</button>
+            </form>
+            <div class="mt-5">
+              <h5>Product Details</h5>
+              <p class="mt-4">
+                <%= product.description %>
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </main>
+      <%- include('../../includes/end.ejs') %>

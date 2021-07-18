@@ -1,0 +1,41 @@
+<%- include('../../includes/head.ejs') %>
+  </head>
+
+  <body>
+    <%- include('../../includes/nav.ejs') %>
+      <main class="container">
+        <h2 class="my-5 text-center">The Best Gaming Laptops</h2>
+        <div class="row justify-content-center">
+          <% products.forEach(product=> { %>
+            <div class="col col-md-4 mb-4">
+              <div class="card h-100">
+                <div style="height: 17rem;">
+                  <img src="<%= product.imageUrl %>" class="card-img-top h-100"
+                    style="object-fit: contain; object-position: center;" alt="<%= product.name %>">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= product.name %>
+                  </h5>
+                  <p class="card-text">
+                    <%= product.description %>
+                  </p>
+                  <div>
+                    <% product.tags.forEach(tag=> { %>
+                      <a href="#" class="badge rounded-pill bg-dark text-white">
+                        <%= tag %>
+                      </a>
+                      <% }) %>
+                  </div>
+                </div>
+                <div class="card-footer text-center">
+                  <a href="/prove/prove03/shop/<%= product._id %>" class="btn btn-primary">Details</a>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+        </div>
+        <%- include('../../includes/pagination.ejs', {currentPage: currentPage, nextPage: nextPage, prevPage: prevPage,
+          lastPage: lastPage, hasNextPage: hasNextPage, hasPrevPage: hasPrevPage}) %>
+      </main>
+      <%- include('../../includes/end.ejs') %>

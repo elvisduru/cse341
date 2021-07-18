@@ -1,0 +1,31 @@
+<section class="pagination justify-content-center mb-4">
+  <% if (currentPage !==1 && prevPage !==1) { %>
+    <a href="?page=1" class="page-link">1</a>
+    <% } %>
+      <% if (hasPrevPage) { %>
+        <li class="page-item">
+          <a href="?page=<%= prevPage %>" class="page-link">
+            <%= prevPage %>
+          </a>
+        </li>
+        <% } %>
+          <li class="page-item active">
+            <a href="?page=<%= currentPage %>" class="page-link">
+              <%= currentPage %>
+            </a>
+          </li>
+          <% if (hasNextPage) { %>
+            <li class="page-item">
+              <a href="?page=<%= nextPage %>" class="page-link">
+                <%= nextPage %>
+              </a>
+            </li>
+            <% } %>
+              <% if (lastPage !==currentPage && nextPage !==lastPage) { %>
+                <li class="page-item">
+                  <a href="?page=<%= lastPage %>" class="page-link">
+                    <%= lastPage %>
+                  </a>
+                </li>
+                <% } %>
+</section>

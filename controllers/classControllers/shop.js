@@ -1,17 +1,30 @@
 const { getDatabase } = require("../../util/db");
 
 exports.getProducts = async (req, res, next) => {
+  const page = +req.query.page || 1;
+  const limit = 1;
+  const skip = (page - 1) * limit;
+  let totalItems;
   getDatabase()
-    .then((db) => {
-      return db.ClassProduct.find();
-      // .select("title price -_id")
-      // .populate("userId", "name")
+    .then((db) => db.ClassProduct.find().countDocuments())
+    .then((numProducts) => {
+      totalItems = numProducts;
+      return getDatabase().then((db) =>
+        db.ClassProduct.find().skip(skip).limit(limit)
+      );
     })
     .then((products) => {
       res.render("classViews/pages/shop/product-list", {
         prods: products,
         pageTitle: "All Products",
         path: "/class/products",
+        totalProducts: totalItems,
+        currentPage: page,
+        hasNextPage: totalItems > page * limit,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / limit),
       });
     })
     .catch((err) => {
@@ -40,13 +53,30 @@ exports.getProduct = async (req, res, next) => {
 };
 
 exports.getIndex = async (req, res, next) => {
+  const page = +req.query.page || 1;
+  const limit = 1;
+  const skip = (page - 1) * limit;
+  let totalItems;
   getDatabase()
-    .then((db) => db.ClassProduct.find())
+    .then((db) => db.ClassProduct.find().countDocuments())
+    .then((numProducts) => {
+      totalItems = numProducts;
+      return getDatabase().then((db) =>
+        db.ClassProduct.find().skip(skip).limit(limit)
+      );
+    })
     .then((products) => {
       res.render("classViews/pages/shop/index", {
         prods: products,
         pageTitle: "Shop",
         path: "/class",
+        totalProducts: totalItems,
+        currentPage: page,
+        hasNextPage: totalItems > page * limit,
+        hasPrevPage: page > 1,
+        nextPage: page + 1,
+        prevPage: page - 1,
+        lastPage: Math.ceil(totalItems / limit),
       });
     })
     .catch((err) => {
