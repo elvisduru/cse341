@@ -67,13 +67,31 @@ app
 
 io.on("connection", (socket) => {
   console.log("A user connected");
-  socket.on("disconnect", () => {
-    console.log("A user disconnected");
-  });
-  socket.on("new-name", () => {
-    // Tell everyone client connected to update the list when someone adds a new name
-    socket.broadcast.emit("update-list");
-  });
+  socket
+    .on("disconnect", () => {
+      console.log("A user disconnected");
+    })
+    .on("new-name", () => {
+      // Tell everyone client connected to update the list when someone adds a new name
+      socket.broadcast.emit("update-list");
+    })
+    .on("new-user", (username, time) => {
+      // Tell everyone else that a user has logged on
+      const message = `${username} has logged on.`;
+      socket.broadcast.emit("new-message", {
+        message,
+        time,
+        from: "admin",
+      });
+    })
+    .on("message", (data) => {
+      // Receive message from the client
+      console.log("Message received", data);
+      // Broadcast data to other users
+      socket.broadcast.emit("new-message", {
+        ...data,
+      });
+    });
 });
 
 server.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
